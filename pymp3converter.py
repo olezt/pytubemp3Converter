@@ -11,7 +11,10 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 def createTempFolder(tempFolderName):
-    shutil.rmtree(tempFolderName)
+    try:
+        shutil.rmtree(tempFolderName)
+    except:
+        pass
     os.mkdir(tempFolderName)
 
 def downloadVideo(url, tempFolderName):
@@ -32,7 +35,10 @@ def main():
         createTempFolder(tempFolderName)
         videoResult = downloadVideo(sys.argv[1], tempFolderName)
         videoToMp3(tempFolderName, videoResult['extension'], videoResult['filename'])
-        shutil.rmtree(tempFolderName)
+        try:
+            shutil.rmtree(tempFolderName)
+        except:
+            pass
     else:
         print ("Please enter a youtube url as argument")
 
