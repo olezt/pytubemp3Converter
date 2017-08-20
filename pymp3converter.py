@@ -4,6 +4,11 @@ import time
 import sys
 import os
 import shutil
+import string, random
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    print (''.join(random.choice(chars) for _ in range(size)))
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def createTempFolder(tempFolderName):
     shutil.rmtree(tempFolderName)
@@ -17,8 +22,9 @@ def downloadVideo(url, tempFolderName):
     return {'filename' : filename, 'extension' : yt.videos[0].extension}
 
 def videoToMp3(tempFolderName, extension, filename):
+    id = id_generator()
     clip = mp.VideoFileClip(tempFolderName + "tempVideo." + extension)
-    clip.audio.write_audiofile("exported/" + filename  + ".mp3")
+    clip.audio.write_audiofile("exported/" + filename + " " + id  + ".mp3")
 
 def main():
     tempFolderName = 'temp/'
