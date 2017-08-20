@@ -5,11 +5,14 @@ import sys, os, shutil, string, random
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-def createTempFolder(tempFolderName):
+def deleteTempFolder(tempFolderName):
     try:
         shutil.rmtree(tempFolderName)
     except:
         pass
+            
+def createNewTempFolder(tempFolderName):
+    deleteTempFolder(tempFolderName)
     os.mkdir(tempFolderName)
 
 def downloadVideo(url, tempFolderName):
@@ -27,13 +30,11 @@ def videoToMp3(tempFolderName, extension, filename):
 def main():
     tempFolderName = 'temp/'
     if sys.argv[1]:
-        createTempFolder(tempFolderName)
+        deleteTempFolder(tempFolderName)
+        createNewTempFolder(tempFolderName)
         videoResult = downloadVideo(sys.argv[1], tempFolderName)
         videoToMp3(tempFolderName, videoResult['extension'], videoResult['filename'])
-        try:
-            shutil.rmtree(tempFolderName)
-        except:
-            pass
+        deleteTempFolder(tempFolderName)
     else:
         print ("Please enter a youtube url as argument")
 
