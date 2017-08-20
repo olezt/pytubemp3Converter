@@ -20,7 +20,6 @@ def createNewTempFolder(tempFolderName):
 
 def downloadVideo(url, tempFolderName, filenamePrefix, videoQuality):
     """download a given video"""
-    print (videoQuality)
     yt = YouTube(url)
     filename = yt.filename
     yt.set_filename(filenamePrefix + 'tempVideo')
