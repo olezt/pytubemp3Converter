@@ -1,10 +1,6 @@
 import moviepy.editor as mp
 from pytube import YouTube
-import time
-import sys
-import os
-import shutil
-import string, random
+import sys, os, shutil, string, random
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
