@@ -1,6 +1,7 @@
 import moviepy.editor as mp
 from pytube import YouTube
-import sys, os, shutil, string, random
+from urllib.request import urlopen
+import sys, os, shutil, string, random, re
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     """create a random id"""
@@ -37,9 +38,26 @@ def downloadAndConvert(url, tempFolderName, filenamePrefix, videoQuality):
     videoResult = downloadVideo(url, tempFolderName, filenamePrefix, videoQuality)
     videoToMp3(tempFolderName, videoResult['extension'], videoResult['filename'], filenamePrefix)
 
+def downloadConvertMultiple(urls, tempFolderName, videoQuality):
+    """download and convert all given urls"""
+    filenamePrefix = 0
+    for url in urls:
+        filenamePrefix += 1
+        downloadAndConvert(url, tempFolderName, str(filenamePrefix), videoQuality)
+
 def readFile(filename):
     """read line by line a given file"""
     return tuple(open(filename, 'r'))
+
+def extractPlaylistUrls(playlistUrl):
+    """extract playlist urls"""
+    response = urlopen(playlistUrl)
+    HTML = response.read().decode('utf-8')
+    urls = []
+    for watchUrl in re.findall(r"/watch\?v=[a-zA-Z0-9\-_]+", HTML):
+        urls.append("http://www.youtube.com" + watchUrl)
+        print("http://www.youtube.com" + watchUrl)
+    return urls
 
 def main():
     """main functionality"""
@@ -56,10 +74,11 @@ def main():
     elif len(sys.argv)>=3 and sys.argv[1]=='-f':
         filename = sys.argv[2]
         urls = readFile(filename)
-        filenamePrefix = 0 
-        for url in urls:
-            filenamePrefix += 1
-            downloadAndConvert(url, tempFolderName, str(filenamePrefix), videoQuality)
+        downloadConvertMultiple(urls, tempFolderName, videoQuality)
+    #download/convert playlist, use of -p cli argument
+    elif len(sys.argv)>=3 and sys.argv[1]=='-p':
+        urls = extractPlaylistUrls(sys.argv[2])
+        downloadConvertMultiple(urls, tempFolderName, videoQuality)
     else:
         print ("Please use one of the available arguments: " + str(avArgvs))
     deleteTempFolder(tempFolderName)

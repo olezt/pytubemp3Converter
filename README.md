@@ -8,6 +8,7 @@ Name   |   Description   |   Example
 ------------ | ------------- | -------------
 -u 	  |  Set url of a specific song to download | -u youtubeVideoUrl
 -f   |  Set a file with songs' urls as input | -f urls.txt
+-p   |  Set a playlist url as input | -f youtubePlaylistUrl
 lq   |  Use low quality version of video. Default is highest | -f youtubeVideoUrl lq
 
 Written in Python.<br>
