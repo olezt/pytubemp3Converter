@@ -6,10 +6,10 @@ Download youtube videos as mp3
 ### Cli Arguments
 Name   |   Description   |   Example
 ------------ | ------------- | -------------
--u 	  |  Set url of a specific song to download | -u youtubeVideoUrl
--f   |  Set a file with songs' urls as input | -f urls.txt
--p   |  Set a playlist url as input | -f youtubePlaylistUrl
-lq   |  Use low quality version of video. Default is highest | -f youtubeVideoUrl lq
+-u 	  |  Download/Convert a video | -u youtubeVideoUrl
+-f   |  Download/Convert multiple videos from file | -f urls.txt
+-p   |  Download/Convert playlist | -f youtubePlaylistUrl
+lq   |  Set quality as lowest. Default is highest | -f youtubeVideoUrl lq
 
 Written in Python.<br>
 
