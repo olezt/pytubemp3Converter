@@ -9,6 +9,7 @@ Name   |   Description   |   Example
 -u 	  |  Download/Convert a video | -u youtubeVideoUrl
 -f   |  Download/Convert multiple videos from file | -f urls.txt
 -p   |  Download/Convert playlist | -f youtubePlaylistUrl
+   |  Range of playlist | -f youtubePlaylistUrl 2-5
 lq   |  Set quality as lowest. Default is highest | -f youtubeVideoUrl lq
 
 Written in Python.<br>

@@ -49,15 +49,22 @@ def readFile(filename):
     """read line by line a given file"""
     return tuple(open(filename, 'r'))
 
-def extractPlaylistUrls(playlistUrl):
+def extractPlaylistUrls(playlistUrl, range):
     """extract playlist urls"""
     response = urlopen(playlistUrl)
     HTML = response.read().decode('utf-8')
     urls = []
     for watchUrl in re.findall(r"/watch\?v=[a-zA-Z0-9\-_]+", HTML):
         urls.append("http://www.youtube.com" + watchUrl)
-        print("http://www.youtube.com" + watchUrl)
-    return urls
+    range = getRange(range, urls)
+    return urls if len(range)<2 else urls[range[0]:range[1]]
+
+def getRange(range, urls):
+    """get specific range of playlist"""
+    range = [int(x) for x in range.split("-")]
+    range[0] = 0 if len(urls)<range[0] else range[0]
+    range[1] = len(urls) if len(urls)<range[1] else range[1]
+    return range
 
 def main():
     """main functionality"""
@@ -77,7 +84,8 @@ def main():
         downloadConvertMultiple(urls, tempFolderName, videoQuality)
     #download/convert playlist, use of -p cli argument
     elif len(sys.argv)>=3 and sys.argv[1]=='-p':
-        urls = extractPlaylistUrls(sys.argv[2])
+        range = "" if len(sys.argv)==3 else sys.argv[3]
+        urls = extractPlaylistUrls(sys.argv[2], range)
         downloadConvertMultiple(urls, tempFolderName, videoQuality)
     else:
         print ("Please use one of the available arguments: " + str(avArgvs))
