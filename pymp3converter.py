@@ -56,9 +56,16 @@ def extractPlaylistUrls(playlistUrl, range):
     urls = []
     for watchUrl in re.findall(r"/watch\?v=[a-zA-Z0-9\-_]+", HTML):
         urls.append("http://www.youtube.com" + watchUrl)
+    urls = removeDuplicates(urls)
     if(range):
         range = getRange(range, urls)
     return urls if len(range)<2 else urls[range[0]:range[1]]
+
+def removeDuplicates(seq):
+    """remove duplicates from the list"""
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
 
 def getRange(range, urls):
     """get specific range of playlist"""
