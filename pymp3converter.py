@@ -56,7 +56,8 @@ def extractPlaylistUrls(playlistUrl, range):
     urls = []
     for watchUrl in re.findall(r"/watch\?v=[a-zA-Z0-9\-_]+", HTML):
         urls.append("http://www.youtube.com" + watchUrl)
-    range = getRange(range, urls)
+    if(range):
+        range = getRange(range, urls)
     return urls if len(range)<2 else urls[range[0]:range[1]]
 
 def getRange(range, urls):
