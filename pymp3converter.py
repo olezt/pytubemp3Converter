@@ -9,10 +9,11 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 def deleteTempFolder(tempFolderName):
     """delete the temp folder where videos are downloaded"""
-    try:
-        shutil.rmtree(tempFolderName)
-    except:
-        print ("Could not delete temp folder")
+    if os.path.exists(tempFolderName):
+	    try:
+	        shutil.rmtree(tempFolderName)
+	    except:
+	        print ("Could not delete temp folder")
 
 def createNewTempFolder(tempFolderName):
     """create the temp folder where videos are downloaded"""
