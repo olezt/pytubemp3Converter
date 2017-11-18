@@ -79,7 +79,6 @@ def main():
     try:
 	    avArgvs = ['-u', '-f', '-p']
 	    tempFolderName = 'temp/'
-	    deleteTempFolder(tempFolderName)
 	    createNewTempFolder(tempFolderName)
 	    videoQuality = 0 if (len(sys.argv)>3 and sys.argv[3]=='-lq') else -1
 	    #download/convert specific video, use of -u cli argument
