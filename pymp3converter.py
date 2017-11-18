@@ -77,7 +77,7 @@ def getRange(range, urls):
 def main():
     """main functionality"""
     try:
-	    avArgvs = ['-u', '-f']
+	    avArgvs = ['-u', '-f', '-p']
 	    tempFolderName = 'temp/'
 	    deleteTempFolder(tempFolderName)
 	    createNewTempFolder(tempFolderName)
