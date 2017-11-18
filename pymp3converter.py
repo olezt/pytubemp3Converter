@@ -12,7 +12,7 @@ def deleteTempFolder(tempFolderName):
     try:
         shutil.rmtree(tempFolderName)
     except:
-        pass
+        print ("Could not delete temp folder")
 
 def createNewTempFolder(tempFolderName):
     """create the temp folder where videos are downloaded"""
@@ -76,27 +76,31 @@ def getRange(range, urls):
 
 def main():
     """main functionality"""
-    avArgvs = ['-u', '-f']
-    tempFolderName = 'temp/'
-    deleteTempFolder(tempFolderName)
-    createNewTempFolder(tempFolderName)
-    videoQuality = 0 if (len(sys.argv)>3 and sys.argv[3]=='-lq') else -1
-    #download/convert specific video, use of -u cli argument
-    if len(sys.argv)>=3 and sys.argv[1]=='-u':
-        url = sys.argv[2]
-        downloadAndConvert(url, tempFolderName, '', videoQuality)
-    #download/convert list of videos, use of -f cli argument
-    elif len(sys.argv)>=3 and sys.argv[1]=='-f':
-        filename = sys.argv[2]
-        urls = readFile(filename)
-        downloadConvertMultiple(urls, tempFolderName, videoQuality)
-    #download/convert playlist, use of -p cli argument
-    elif len(sys.argv)>=3 and sys.argv[1]=='-p':
-        range = "" if len(sys.argv)==3 else sys.argv[3]
-        urls = extractPlaylistUrls(sys.argv[2], range)
-        downloadConvertMultiple(urls, tempFolderName, videoQuality)
-    else:
-        print ("Please use one of the available arguments: " + str(avArgvs))
-    deleteTempFolder(tempFolderName)
+    try:
+	    avArgvs = ['-u', '-f']
+	    tempFolderName = 'temp/'
+	    deleteTempFolder(tempFolderName)
+	    createNewTempFolder(tempFolderName)
+	    videoQuality = 0 if (len(sys.argv)>3 and sys.argv[3]=='-lq') else -1
+	    #download/convert specific video, use of -u cli argument
+	    if len(sys.argv)>=3 and sys.argv[1]=='-u':
+	        url = sys.argv[2]
+	        downloadAndConvert(url, tempFolderName, '', videoQuality)
+	    #download/convert list of videos, use of -f cli argument
+	    elif len(sys.argv)>=3 and sys.argv[1]=='-f':
+	        filename = sys.argv[2]
+	        urls = readFile(filename)
+	        downloadConvertMultiple(urls, tempFolderName, videoQuality)
+	    #download/convert playlist, use of -p cli argument
+	    elif len(sys.argv)>=3 and sys.argv[1]=='-p':
+	        range = "" if len(sys.argv)==3 else sys.argv[3]
+	        urls = extractPlaylistUrls(sys.argv[2], range)
+	        downloadConvertMultiple(urls, tempFolderName, videoQuality)
+	    else:
+	        print ("Please use one of the available arguments: " + str(avArgvs))
+	    deleteTempFolder(tempFolderName)
+    except:
+        print ("Program has encounter an error")
+        deleteTempFolder(tempFolderName)
 
 main()
